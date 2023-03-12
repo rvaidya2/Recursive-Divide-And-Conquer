@@ -13,88 +13,117 @@ public class Tromino {
     }
 
     public static int tromino(int boardS, int x, int y) {
-
-        if(!isPowerOfTwo(boardS)){
+        int a = 0, b =0;
+        if(boardS == 1)
+        {
+            return 0;
+        }
+        if (!isPowerOfTwo(boardS)) {
             System.out.println("Wrong Input, n should be a power of 2");
             return 0;
         }
 
 
-        int a = 0, b = 0;
+        if(boardS == 2) {
+            int count = 0, r = 0, c = 0;
 
 
-        if (boardS == 2) {
-            for (int j = boardS - 1; j >= 0; j--) {
-                for (int i = 0; i < boardS; i++) {
+            for (int i = 0; i < boardS; i++) {
+                for (int j = 0; j < boardS; j++) {
+                    if (board[i][j] != 0) {
+                        count = board[i][j];
+                        r = i;
+                        c = j;
 
-                    if(board[i][j] == 0 && (a >= x + boardS / 2 && b < y + boardS / 2)){
-                        board[i][j] = 1;
-                    }
-                    if(board[i][j] == 0 && (a >= x + boardS / 2 && b >= y + boardS / 2)){
-                        board[i][j] = 2;
-                    }
-                    if(board[i][j] == 0 && (a < x + boardS / 2 && b < y + boardS / 2)){
-                        board[i][j] = 3;
-                    }
-                    if(board[i][j] == 0 && (a < x + boardS / 2 && b >= y + boardS / 2)){
-                        board[i][j] = 4;
                     }
                 }
             }
+
+            for (int i = 0; i < boardS; i++) {
+                for (int j = 0; j < boardS; j++) {
+                    if (board[i][j] == 0) {
+                        if (r < (x + boardS / 2) && c < (y + boardS / 2)) {
+                            board[i][j] = 1;
+                        } else if (r >= x + boardS / 2 && c < y + boardS / 2) {
+                            board[i][j] = 2;
+                        } else if (r < x + boardS / 2 && c >= y + boardS / 2) {
+                            board[i][j] = 3;
+                        } else if (r >= x + boardS / 2 && c >= y + boardS / 2) {
+                            board[i][j] = 4;
+                        }
+                    }
+
+                }
+            }
+        }
+
+            for (int i = x; i < x + boardS; i++)
+            {
+                for (int j = y; j < y + boardS; j++)
+                {
+                    if (board[i][j] != 0)
+                    {
+                        a = i;
+                        b = j;
+                    }
+
+                }
+            }
+
+            if (a < x + boardS / 2 && b < y + boardS / 2) {
+
+               board[x + boardS / 2][y + (boardS / 2) - 1] = 1;
+               board[x + boardS / 2][ y + boardS / 2] = 1;
+               board[x + boardS / 2 - 1][y + boardS / 2] = 1;
+//                (x + boardS / 2, y + (boardS / 2) - 1, x + boardS / 2,
+//                        y + boardS / 2, x + boardS / 2 - 1, y + boardS / 2);
+            }
+
+                // If missing Tile is in 3rd quadrant
+            else if (a >= x + boardS / 2 && b < y + boardS / 2){
+                board[x + (boardS / 2) - 1][y + (boardS / 2)] = 2;
+                board[x + (boardS / 2)][y + boardS / 2] = 2;
+                board[x + (boardS/ 2) - 1][y + (boardS / 2) - 1] = 2;
+            }
+//                place(x + (boardS / 2) - 1, y + (boardS / 2), x + (boardS / 2),
+//                        y + boardS / 2, x + (boardS/ 2) - 1, y + (boardS / 2) - 1);
+
+                // If missing Tile is in 2nd quadrant
+            else if (a < x + boardS / 2 && b >= y + boardS / 2){
+                board[x + boardS / 2][y + (boardS / 2) - 1] = 3;
+                board[x + boardS / 2][y + boardS / 2] = 3;
+                board[x + boardS / 2 - 1][y + boardS / 2 - 1] =3;
+            }
+//                place(x + boardS / 2, y + (boardS / 2) - 1, x + boardS / 2,
+//                        y + boardS / 2, x + boardS / 2 - 1, y + boardS / 2 - 1);
+
+                // If missing Tile is in 4th quadrant
+            else if (a >= x + boardS / 2 && b >= y + boardS / 2){
+                board[x + (boardS / 2) - 1][y + (boardS / 2)] = 4;
+                board[x + (boardS / 2)][y + (boardS / 2) - 1] = 4;
+                board[x + (boardS / 2) - 1][y + (boardS / 2) - 1] = 4;
+            }
+
+
+//                place(x + (boardS / 2) - 1, y + (boardS / 2), x + (boardS / 2),
+//                        y + (boardS / 2) - 1, x + (boardS / 2) - 1,
+//                        y + (boardS / 2) - 1);
+
+            // dividing it again in 4 quadrants
+            tromino(boardS / 2, x, y + boardS / 2);
+            tromino(boardS / 2, x, y);
+            tromino(boardS / 2, x + boardS/ 2, y);
+            tromino(boardS/ 2, x + boardS / 2, y + boardS/ 2);
+
 
             return 0;
         }
 
 
-                // Locate Hole
-                for (int i = x; i < x + boardS; i++) {
-                    for (int j = y; j < y + boardS; j++) {
-                        if (board[i][j] != 0) {
-                            a = i;
-                            b = j;
-                        }
 
-                    }
-                }
 
-                // Quadrant 1
-                if (a >= x + boardS / 2 && b < y + boardS / 2) {
-                    board[x + (boardS / 2) - 1 ][y + boardS / 2] = 1;
-                    board[x + (boardS / 2)][y + (boardS / 2) - 1] = 1;
-                    board[x + (boardS / 2) - 1][y + (boardS / 2) - 1] = 1;
-//                    x + (n / 2) - 1, y + (n / 2), x + (n / 2),
-//                            y + (n / 2) - 1, x + (n / 2) - 1,
-//                            y + (n / 2) - 1
 
-                }
-                // Quadrant 2
-                else if (a >= x + boardS / 2 && b >= y + boardS / 2) {
-                    board[x + (boardS / 2) - 1][y + (boardS / 2)] = 1;
-                    board[x + (boardS / 2)][y + (boardS / 2) - 1] = 1;
-                    board[x + (boardS / 2) - 1][y + (boardS / 2) - 1] = 1;
 
-                }
-                // Quadrant 3
-                else if (a < x + boardS / 2 && b < y + boardS / 2) {
-                    board[x + boardS / 2][y + (boardS / 2) - 1] = 3;
-                    board[x + boardS / 2][y + boardS / 2] = 3;
-                    board[x + boardS / 2 - 1][y + boardS / 2] = 3;
-
-                }
-                // Quadrant 4
-                else if (a < x + boardS / 2 && b >= y + boardS / 2) {
-                    board[x + boardS / 2][y + (boardS / 2) - 1] = 3;
-                    board[x + boardS / 2][y + boardS / 2] = 3;
-                    board[x + boardS / 2 - 1][y + boardS / 2 - 1] = 3;
-                }
-
-                tromino(boardS / 2, x, y + boardS / 2);
-                tromino(boardS / 2, x, y);
-                tromino(boardS / 2, x + boardS / 2, y);
-                tromino(boardS / 2, x + boardS / 2, y + boardS / 2);
-
-                return 0;
-            }
 
 
 
@@ -102,7 +131,6 @@ public class Tromino {
 
     public static int printBoard(int[][] board, int size) {
         if(!isPowerOfTwo(size)){
-
             return 0;
         }else {
             String missingSquare = "MS";
@@ -117,21 +145,26 @@ public class Tromino {
                     if (board[i][j] == -1) {
                         System.out.print(missingSquare + " ");
                     }
+                    //Quadrant 1 UR
                     if (board[i][j] == 1) {
-                        System.out.print(LL + " ");
+                        System.out.print(UR + " ");
                     }
+                    // Quadrant 2 UL
                     if (board[i][j] == 2) {
                         System.out.print(UL + " ");
                     }
+                    //Quadrant 3 LR
                     if (board[i][j] == 3) {
                         System.out.print(LR + " ");
                     }
+                    // Quadrant 4 LL
                     if (board[i][j] == 4) {
-                        System.out.print(UR + " ");
+                        System.out.print(LL + " ");
                     }
                     if(board[i][j] == 0){
                         System.out.print("HM ");
                     }
+
 
                 }
                 System.out.println();
@@ -158,8 +191,13 @@ public class Tromino {
             storeBoard = boardSize;
             board[missingX][missingY] = -1;
             tromino(boardSize, 0 , 0);
-            printBoard(board, storeBoard);
-            board[missingX][missingY] = 0;
+            printBoard(board, boardSize);
+
+            for (int i = 0; i < board.length; i++) {
+                for (int j = 0; j < board[i].length; j++) {
+                    board[i][j] = 0;
+                }
+            }
         }
 
     }
