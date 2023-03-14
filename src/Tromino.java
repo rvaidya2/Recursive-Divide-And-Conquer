@@ -5,7 +5,7 @@ public class Tromino {
     public static int boardSize;
     public static int storeBoard;
     public static int missingX,  missingY;
-    public static int[][] board = new int[128][128];
+    public static int[][] board = new int[1024][1024];
     public static boolean isPowerOfTwo(int n)
     {
         return (int)(Math.ceil((Math.log(n) / Math.log(2))))
