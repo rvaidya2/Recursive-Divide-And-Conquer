@@ -16,6 +16,8 @@ public class GFG
 // Quadrant names
 // 1 2
 // 3 4
+    //3 4
+    //1 2
 
     // Function based on divide and conquer
     static int tile(int n, int x, int y)
@@ -88,7 +90,7 @@ public class GFG
         size_of_grid = 8;
 
         // Coordinates which will be marked
-        a = 1; b = 5;
+        a = 0; b = 0;
 
         // Here tile can not be placed
         arr[a][b] = -1;
